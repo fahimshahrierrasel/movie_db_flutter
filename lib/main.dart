@@ -62,8 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Text(
                         "Overview",
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Text(
                         "Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.",
@@ -119,7 +119,6 @@ class ActorListItem extends StatelessWidget {
       width: 150,
       height: 150,
       padding: EdgeInsets.all(4.0),
-      color: Colors.green,
       child: Stack(
         children: <Widget>[
           Container(
@@ -129,8 +128,17 @@ class ActorListItem extends StatelessWidget {
                     image: AssetImage("assets/images/lion_king_poster.jpg"),
                     fit: BoxFit.cover)),
           ),
-          Container(
-            child: Text("The Lion King"),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              color: Color.fromRGBO(255, 255, 255, 0.7),
+              child: Text(
+                "The Lion King",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
           )
         ],
       ),
