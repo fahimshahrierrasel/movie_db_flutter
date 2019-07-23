@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 
+import 'common/app_drawer.dart';
+
 class MovieDetails extends StatefulWidget {
   MovieDetails({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MovieDetailsState createState() => _MovieDetailsState();
+  _MovieDetailsState createState() => _MovieDetailsState(title: title);
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
   var top = 0.0;
+  final String title;
+
+  _MovieDetailsState({@required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -28,7 +34,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                   return FlexibleSpaceBar(
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
-                    title: Text(top <= 80 ? "The Lion King" : ""),
+                    title: Text(top <= 100 ? title : ""),
                     background: Image.asset(
                       "assets/images/lion_king_backdrop.jpg",
                       fit: BoxFit.cover,
