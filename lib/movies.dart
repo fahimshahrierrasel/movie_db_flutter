@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'common/app_drawer.dart';
 import 'common/movie_list.dart';
 
 class Movies extends StatelessWidget {
@@ -14,6 +15,7 @@ class Movies extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
+      drawer: AppDrawer(),
       body: MovieList(),
     );
   }

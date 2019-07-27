@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../discover_movies.dart';
+import '../movies.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
     Key key,
@@ -16,27 +19,31 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Drawer Header'),
+            child: Text('Movie DB'),
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
           ),
           ListTile(
-            title: Text('Item 1'),
+            title: Text('Popular Movies'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Movies(
+                            title: "Popular Movies",
+                          )));
             },
           ),
           ListTile(
-            title: Text('Item 2'),
+            title: Text('Discover Movies'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DiscoverMovies(
+                            title: "Discover Movies",
+                          )));
             },
           ),
         ],
