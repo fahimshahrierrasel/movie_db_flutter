@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../actors.dart';
 import '../discover_movies.dart';
 import '../movies.dart';
 
@@ -44,6 +45,17 @@ class AppDrawer extends StatelessWidget {
                       builder: (context) => DiscoverMovies(
                             title: "Discover Movies",
                           )));
+            },
+          ),
+          ListTile(
+            title: Text('Actors'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Actors(
+                        title: "Actors",
+                      )));
             },
           ),
         ],

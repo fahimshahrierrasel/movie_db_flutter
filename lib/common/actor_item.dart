@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../actor_details.dart';
-import '../movie_details.dart';
 
-class MovieGridItem extends StatelessWidget {
-  const MovieGridItem({
+class ActorListItem extends StatelessWidget {
+  const ActorListItem({
     Key key,
   }) : super(key: key);
 
@@ -15,8 +14,8 @@ class MovieGridItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MovieDetails(
-                  title: "The Lion King",
+                builder: (context) => ActorDetails(
+                  title: "The Actor",
                 )));
       },
       child: Container(
@@ -29,7 +28,7 @@ class MovieGridItem extends StatelessWidget {
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/lion_king_poster.jpg"),
+                      image: AssetImage("assets/images/donald_glover.jpg"),
                       fit: BoxFit.cover)),
             ),
             Align(

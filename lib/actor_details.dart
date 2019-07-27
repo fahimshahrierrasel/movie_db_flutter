@@ -2,29 +2,33 @@ import 'package:flutter/material.dart';
 
 import 'common/actor_item.dart';
 import 'common/fact_item.dart';
+import 'common/movie_item.dart';
 
-class MovieDetails extends StatefulWidget {
-  MovieDetails({Key key, this.title}) : super(key: key);
+class ActorDetails extends StatefulWidget {
+  ActorDetails({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MovieDetailsState createState() => _MovieDetailsState(title: title);
+  _ActorDetailsState createState() => _ActorDetailsState(title: title);
 }
 
-class _MovieDetailsState extends State<MovieDetails> {
+class _ActorDetailsState extends State<ActorDetails> {
   var top = 0.0;
   final String title;
-  _MovieDetailsState({@required this.title});
+
+  _ActorDetailsState({@required this.title});
 
   @override
   Widget build(BuildContext context) {
+    String biography =
+        "Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.";
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-                expandedHeight: 200,
+                expandedHeight: 350,
                 pinned: true,
                 floating: true,
                 flexibleSpace: LayoutBuilder(builder:
@@ -35,7 +39,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     collapseMode: CollapseMode.parallax,
                     title: Text(top <= 100 ? title : ""),
                     background: Image.asset(
-                      "assets/images/lion_king_backdrop.jpg",
+                      "assets/images/donald_glover.jpg",
                       fit: BoxFit.cover,
                     ),
                   );
@@ -57,12 +61,12 @@ class _MovieDetailsState extends State<MovieDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Overview",
+                        "Biography",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Text(
-                        "Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.",
+                        biography,
                         textAlign: TextAlign.justify,
                       )
                     ],
@@ -75,20 +79,20 @@ class _MovieDetailsState extends State<MovieDetails> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Facts",
-                    style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                new FactItem(Icons.theaters, "Released"),
-                new FactItem(Icons.today, "2019-07-12"),
-                new FactItem(Icons.language, "English"),
-                new FactItem(Icons.movie, "1h 58m"),
-                new FactItem(Icons.monetization_on, "260 Million"),
-                new FactItem(Icons.trending_up, "270 Million"),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Info",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                    ),
+                    new FactItem(Icons.theaters, "Released"),
+                    new FactItem(Icons.today, "2019-07-12"),
+                    new FactItem(Icons.language, "English"),
+                    new FactItem(Icons.movie, "1h 58m"),
+                    new FactItem(Icons.monetization_on, "260 Million"),
+                    new FactItem(Icons.trending_up, "270 Million"),
                   ],
                 ),
               ),
@@ -101,9 +105,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "Top Billed Cast",
-                        style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        "Known For",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ),
                     Container(
@@ -112,7 +116,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                           scrollDirection: Axis.horizontal,
                           itemCount: 10,
                           itemBuilder: (context, int) {
-                            return ActorListItem();
+                            return MovieGridItem();
                           }),
                     ),
                   ],
