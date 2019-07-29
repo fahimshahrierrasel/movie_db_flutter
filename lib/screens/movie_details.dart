@@ -1,126 +1,179 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:movie_db_flutter/common/actor_item.dart';
 import 'package:movie_db_flutter/common/fact_item.dart';
+import 'package:movie_db_flutter/helpers/constants.dart';
+import 'package:movie_db_flutter/models/movie.dart';
+
+Future<Movie> getMovieDetails(String movieId, String apiKey) async {
+  final response = await http.get('$baseUrl/movie/$movieId?api_key=$apiKey');
+
+  if (response.statusCode == 200) {
+    return Movie.fromJsonMap(json.decode(response.body));
+  } else {
+    throw Exception('Failed to load post');
+  }
+}
 
 class MovieDetails extends StatefulWidget {
-  MovieDetails({Key key, this.title}) : super(key: key);
+  final int movieId;
 
-  final String title;
+  MovieDetails({Key key, @required this.movieId}) : super(key: key);
 
   @override
-  _MovieDetailsState createState() => _MovieDetailsState(title: title);
+  _MovieDetailsState createState() => _MovieDetailsState(
+      movieDetailsResponse: getMovieDetails(movieId.toString(), apiKey));
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
   var top = 0.0;
-  final String title;
-  _MovieDetailsState({@required this.title});
+  final Future<Movie> movieDetailsResponse;
+
+  _MovieDetailsState({@required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-                expandedHeight: 200,
-                pinned: true,
-                floating: true,
-                flexibleSpace: LayoutBuilder(builder:
-                    (BuildContext context, BoxConstraints constraints) {
-                  top = constraints.biggest.height;
-                  return FlexibleSpaceBar(
-                    centerTitle: true,
-                    collapseMode: CollapseMode.parallax,
-                    title: Text(top <= 100 ? title : ""),
-                    background: Image.asset(
-                      "assets/images/lion_king_backdrop.jpg",
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }))
-          ];
-        },
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Card(
-                elevation: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Overview",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      Text(
-                        "Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.",
-                        textAlign: TextAlign.justify,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 3,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Facts",
-                    style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                new FactItem(Icons.theaters, "Released"),
-                new FactItem(Icons.today, "2019-07-12"),
-                new FactItem(Icons.language, "English"),
-                new FactItem(Icons.movie, "1h 58m"),
-                new FactItem(Icons.monetization_on, "260 Million"),
-                new FactItem(Icons.trending_up, "270 Million"),
-                  ],
-                ),
-              ),
-              Card(
-                elevation: 3,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
+        body: FutureBuilder<Movie>(
+      future: movieDetailsResponse,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          var movie = snapshot.data;
+          String movieTitle = movie.title.length > 25
+              ? movie.title.substring(0, 25) + '...'
+              : movie.title;
+          return NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                    expandedHeight: 200,
+                    pinned: true,
+                    floating: true,
+                    flexibleSpace: LayoutBuilder(builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      top = constraints.biggest.height;
+                      return FlexibleSpaceBar(
+                        centerTitle: false,
+                        collapseMode: CollapseMode.parallax,
+                        title: Text(top <= 100 ? movieTitle : ""),
+                        background: FadeInImage.assetNetwork(
+                          placeholder: "assets/images/placeholder.png",
+                          image: "$backdropPrefix/${movie.backdropPath}",
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    }))
+              ];
+            },
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Card(
+                    elevation: 3,
+                    child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Top Billed Cast",
-                        style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Overview",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Text(
+                            movie.overview,
+                            textAlign: TextAlign.justify,
+                          )
+                        ],
                       ),
                     ),
-                    Container(
-                      height: 160,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 10,
-                          itemBuilder: (context, int) {
-                            return ActorListItem();
-                          }),
+                  ),
+                  Card(
+                    elevation: 3,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Facts",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        new FactItem(Icons.theaters, movie.status),
+                        new FactItem(Icons.today, movie.releaseDate),
+                        new FactItem(Icons.language, movie.originalLanguage),
+                        new FactItem(
+                            Icons.movie,
+                            movie.runtime != null
+                                ? "${(movie.runtime / 60).round()} hrs ${(movie.runtime % 60).toString()} mins"
+                                : ""),
+                        new FactItem(
+                            Icons.monetization_on, "${movie.budget/1000000} Million"),
+                        new FactItem(
+                            Icons.trending_up, "${movie.revenue/1000000} Million"),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                  ),
+                  Card(
+                    elevation: 3,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Top Billed Cast",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        Container(
+                          height: 160,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 10,
+                              itemBuilder: (context, int) {
+                                return ActorListItem();
+                              }),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            body: Center(
+                child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Loading...",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                )
+              ],
+            )),
+          );
+        }
+      },
+    ));
   }
 }

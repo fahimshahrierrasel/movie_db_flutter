@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:movie_db_flutter/models/movie_list_response.dart';
 
 import 'package:movie_db_flutter/screens/movie_details.dart';
+import 'package:movie_db_flutter/helpers/constants.dart';
 
 class MovieItemCard extends StatelessWidget {
-  const MovieItemCard({
-    Key key,
-  }) : super(key: key);
+  final Movie movie;
+
+  const MovieItemCard({Key key, this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class MovieItemCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => MovieDetails(
-                        title: "The Lion King",
+                        movieId: movie.id,
                       )));
         },
         child: Container(
@@ -29,9 +31,11 @@ class MovieItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Expanded(
-                  child: Image.asset(
-                    "assets/images/lion_king_poster.jpg",
+                  child: FadeInImage.assetNetwork(
+                    placeholder: "assets/images/placeholder.png",
+                    image: "$posterPrefix/${movie.posterPath}",
                     fit: BoxFit.cover,
+                    alignment: AlignmentDirectional.center,
                   ),
                   flex: 1,
                 ),
@@ -47,7 +51,7 @@ class MovieItemCard extends StatelessWidget {
                           Container(
                             width: double.infinity,
                             child: Text(
-                              "The Lion King",
+                              movie.title,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 24),
                             ),
@@ -66,7 +70,7 @@ class MovieItemCard extends StatelessWidget {
                                     children: <Widget>[
                                       new Text("Release Date"),
                                       new Text(
-                                        "2019-07-12",
+                                        movie.releaseDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       )
@@ -77,7 +81,7 @@ class MovieItemCard extends StatelessWidget {
                                     children: <Widget>[
                                       new Text("Rating"),
                                       new Text(
-                                        "7.0",
+                                        movie.voteAverage.toString(),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       )

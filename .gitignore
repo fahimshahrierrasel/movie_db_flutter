@@ -455,3 +455,8 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.gitignore.io/api/dart,xcode,swift,linux,macos,kotlin,windows,android,flutter,androidstudio,visualstudiocode
+\.idea/markdown-exported-files\.xml
+
+\.idea/markdown-navigator\.xml
+
+\.idea/markdown-navigator/profiles_settings\.xml

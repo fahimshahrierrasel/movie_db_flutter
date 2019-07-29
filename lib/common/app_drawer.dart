@@ -33,6 +33,19 @@ class AppDrawer extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => Movies(
                             title: "Popular Movies",
+                            keyword: "popular",
+                          )));
+            },
+          ),
+          ListTile(
+            title: Text('Now Playing'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Movies(
+                            title: "Now Playing",
+                            keyword: "now_playing",
                           )));
             },
           ),
@@ -48,14 +61,38 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text('Top Rated Movies'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Movies(
+                            title: "Top Rated Movies",
+                            keyword: "top_rated",
+                          )));
+            },
+          ),
+          ListTile(
+            title: Text('Upcoming Movies'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Movies(
+                            title: "Upcoming Movies",
+                            keyword: "upcoming",
+                          )));
+            },
+          ),
+          ListTile(
             title: Text('Actors'),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => Actors(
-                        title: "Actors",
-                      )));
+                            title: "Actors",
+                          )));
             },
           ),
         ],

@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Movies(
-        title: "Discover Movies",
+        title: "Popular Movies",
+        keyword: "popular",
       ),
     );
   }

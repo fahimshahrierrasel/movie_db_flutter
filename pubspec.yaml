@@ -46,6 +46,7 @@ flutter:
     - assets/images/lion_king_poster.jpg
     - assets/images/lion_king_backdrop.jpg
     - assets/images/donald_glover.jpg
+    - assets/images/placeholder.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

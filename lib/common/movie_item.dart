@@ -16,7 +16,7 @@ class MovieGridItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => MovieDetails(
-                  title: "The Lion King",
+                  movieId: 1,
                 )));
       },
       child: Container(
