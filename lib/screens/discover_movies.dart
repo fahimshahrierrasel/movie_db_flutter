@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:movie_db_flutter/common/app_drawer.dart';
 import 'package:movie_db_flutter/common/movie_list.dart';
 
-import 'common/app_drawer.dart';
 
 class DiscoverMovies extends StatefulWidget {
   DiscoverMovies({Key key, this.title}) : super(key: key);
@@ -21,7 +20,7 @@ class _DiscoverMoviesState extends State<DiscoverMovies> {
   List<String> years = List<String>();
   String selectedYear = "";
 
-  _DiscoverMoviesState({ @required this.title});
+  _DiscoverMoviesState({@required this.title});
 
   @override
   void initState() {
@@ -57,14 +56,19 @@ class _DiscoverMoviesState extends State<DiscoverMovies> {
                           Expanded(
                             flex: 3,
                             child: TextField(
-                              decoration:
-                                  InputDecoration(hintText: "Search Here"),
+                              decoration: InputDecoration(
+                                  hintText: "Search Here",
+                                  contentPadding:
+                                      EdgeInsets.only(left: 8.0, bottom: 4.0)),
                             ),
                           ),
                           Expanded(
                             flex: 1,
-                            child: MaterialButton(
-                                child: Text("Search"), onPressed: () {}),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: MaterialButton(
+                                  child: Text("Search"), onPressed: () {}),
+                            ),
                           )
                         ],
                       ),

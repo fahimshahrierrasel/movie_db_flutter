@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'common/actor_item.dart';
-import 'common/fact_item.dart';
-import 'common/movie_item.dart';
+import 'package:movie_db_flutter/common/fact_item.dart';
+import 'package:movie_db_flutter/common/movie_item.dart';
 
 class ActorDetails extends StatefulWidget {
   ActorDetails({Key key, this.title}) : super(key: key);

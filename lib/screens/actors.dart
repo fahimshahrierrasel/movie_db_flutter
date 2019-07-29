@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'common/actor_item.dart';
-import 'common/app_drawer.dart';
+import 'package:movie_db_flutter/common/actor_item.dart';
+import 'package:movie_db_flutter/common/app_drawer.dart';
 
 class Actors extends StatelessWidget {
   final String title;

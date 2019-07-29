@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../actors.dart';
-import '../discover_movies.dart';
-import '../movies.dart';
+import 'package:movie_db_flutter/screens/actors.dart';
+import 'package:movie_db_flutter/screens/discover_movies.dart';
+import 'package:movie_db_flutter/screens/movies.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({

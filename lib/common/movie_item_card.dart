@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../movie_details.dart';
+import 'package:movie_db_flutter/screens/movie_details.dart';
 
 class MovieItemCard extends StatelessWidget {
   const MovieItemCard({

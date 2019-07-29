@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'discover_movies.dart';
-import 'movie_details.dart';
-import 'movies.dart';
+import 'package:movie_db_flutter/screens/movies.dart';
 
 void main() => runApp(MyApp());
 

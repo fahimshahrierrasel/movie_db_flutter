@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../actor_details.dart';
+import 'package:movie_db_flutter/screens/actor_details.dart';
 
 class ActorListItem extends StatelessWidget {
   const ActorListItem({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../actor_details.dart';
-import '../movie_details.dart';
+import 'package:movie_db_flutter/screens/actor_details.dart';
+import 'package:movie_db_flutter/screens/movie_details.dart';
 
 class MovieGridItem extends StatelessWidget {
   const MovieGridItem({
