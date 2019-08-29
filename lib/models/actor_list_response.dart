@@ -1,25 +1,25 @@
 import 'dart:convert';
 
-class ActorResponse {
+class ActorListResponse {
   int page;
   List<Actor> actors;
   int totalResults;
   int totalPages;
 
-  ActorResponse({
+  ActorListResponse({
     this.page,
     this.actors,
     this.totalResults,
     this.totalPages,
   });
 
-  factory ActorResponse.fromRawJson(String str) =>
-      ActorResponse.fromJson(json.decode(str));
+  factory ActorListResponse.fromRawJson(String str) =>
+      ActorListResponse.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory ActorResponse.fromJson(Map<String, dynamic> json) =>
-      new ActorResponse(
+  factory ActorListResponse.fromJson(Map<String, dynamic> json) =>
+      new ActorListResponse(
         page: json["page"],
         actors:
             new List<Actor>.from(json["results"].map((x) => Actor.fromJson(x))),

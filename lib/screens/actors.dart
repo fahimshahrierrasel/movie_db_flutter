@@ -5,12 +5,12 @@ import 'package:movie_db_flutter/common/app_drawer.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
 import 'package:movie_db_flutter/models/actor_list_response.dart';
 
-Future<ActorResponse> getActorList({int page = 1}) async {
+Future<ActorListResponse> getActorList({int page = 1}) async {
   final response =
       await http.get("$baseUrl/person/popular?api_key=$apiKey&page=$page");
 
   if (response.statusCode == 200) {
-    return ActorResponse.fromRawJson(response.body);
+    return ActorListResponse.fromRawJson(response.body);
   } else {
     throw Exception("Failed to load actors");
   }
@@ -28,7 +28,7 @@ class Actors extends StatelessWidget {
           title: Text(title),
         ),
         drawer: AppDrawer(),
-        body: FutureBuilder<ActorResponse>(
+        body: FutureBuilder<ActorListResponse>(
           future: getActorList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
