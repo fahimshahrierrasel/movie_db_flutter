@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:movie_db_flutter/helpers/constants.dart';
 
 import 'package:movie_db_flutter/screens/actor_details.dart';
 
 class ActorListItem extends StatelessWidget {
+  final String actorName;
+  final String actorImage;
+
   const ActorListItem({
     Key key,
+    this.actorName,
+    this.actorImage,
   }) : super(key: key);
 
   @override
@@ -15,8 +21,8 @@ class ActorListItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => ActorDetails(
-                  title: "The Actor",
-                )));
+                      title: actorName,
+                    )));
       },
       child: Container(
         width: 150,
@@ -28,7 +34,7 @@ class ActorListItem extends StatelessWidget {
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/donald_glover.jpg"),
+                      image: NetworkImage("$castProfilePrefix/$actorImage"),
                       fit: BoxFit.cover)),
             ),
             Align(
@@ -37,7 +43,7 @@ class ActorListItem extends StatelessWidget {
                 width: double.infinity,
                 color: Color.fromRGBO(255, 255, 255, 0.7),
                 child: Text(
-                  "The Lion King",
+                  actorName,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
