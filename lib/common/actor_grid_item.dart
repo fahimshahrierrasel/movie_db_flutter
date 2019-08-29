@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
-
+import 'package:movie_db_flutter/models/actor_list_response.dart';
 import 'package:movie_db_flutter/screens/actor_details_page.dart';
 
 class ActorGridItem extends StatelessWidget {
-  final String actorName;
-  final String actorImage;
+  final Actor actor;
 
   const ActorGridItem({
     Key key,
-    this.actorName,
-    this.actorImage,
+    this.actor,
   }) : super(key: key);
 
   @override
@@ -21,7 +19,7 @@ class ActorGridItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => ActorDetailsPage(
-                      title: actorName,
+                      actorId: actor.id,
                     )));
       },
       child: Container(
@@ -31,11 +29,11 @@ class ActorGridItem extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage("$castProfilePrefix/$actorImage"),
-                      fit: BoxFit.cover)),
+              width: double.infinity,
+              child: Image.network(
+                "$castProfilePrefix/${actor.profilePath}",
+                fit: BoxFit.cover,
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -43,7 +41,7 @@ class ActorGridItem extends StatelessWidget {
                 width: double.infinity,
                 color: Color.fromRGBO(255, 255, 255, 0.7),
                 child: Text(
-                  actorName,
+                  actor.name,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),

@@ -35,7 +35,7 @@ class ActorsGridPage extends StatelessWidget {
               return GridView.count(
                 crossAxisCount: 2,
                 children: snapshot.data.actors.map((actor) {
-                  return ActorGridItem(actorName: actor.name, actorImage: actor.profilePath,);
+                  return ActorGridItem(actor: actor);
                 }).toList(),
               );
             } else {

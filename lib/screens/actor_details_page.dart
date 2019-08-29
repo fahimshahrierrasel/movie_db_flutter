@@ -1,129 +1,163 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:movie_db_flutter/common/fact_item.dart';
 import 'package:movie_db_flutter/common/movie_grid_item.dart';
+import 'package:movie_db_flutter/helpers/constants.dart';
+import 'package:movie_db_flutter/models/actor_details.dart';
+
+Future<ActorDetails> getActorDetails(int actorId) async {
+  final response = await http.get("$baseUrl/person/$actorId?api_key=$apiKey");
+
+  if (response.statusCode == 200) {
+    return ActorDetails.fromRawJson(response.body);
+  } else {
+    throw Exception("Failed to get actor details");
+  }
+}
 
 class ActorDetailsPage extends StatefulWidget {
-  ActorDetailsPage({Key key, this.title}) : super(key: key);
+  ActorDetailsPage({Key key, this.actorId}) : super(key: key);
 
-  final String title;
+  final int actorId;
 
   @override
-  _ActorDetailsPageState createState() => _ActorDetailsPageState(title: title);
+  _ActorDetailsPageState createState() =>
+      _ActorDetailsPageState(actorDetailsResponse: getActorDetails(actorId));
 }
 
 class _ActorDetailsPageState extends State<ActorDetailsPage> {
   var top = 0.0;
-  final String title;
+  final Future<ActorDetails> actorDetailsResponse;
 
-  _ActorDetailsPageState({@required this.title});
+  _ActorDetailsPageState({@required this.actorDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
-    String biography =
-        "Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.";
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-                expandedHeight: 350,
-                pinned: true,
-                floating: true,
-                flexibleSpace: LayoutBuilder(builder:
-                    (BuildContext context, BoxConstraints constraints) {
-                  top = constraints.biggest.height;
-                  return FlexibleSpaceBar(
-                    centerTitle: true,
-                    collapseMode: CollapseMode.parallax,
-                    title: Text(top <= 100 ? title : ""),
-                    background: Image.asset(
-                      "assets/images/donald_glover.jpg",
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }))
-          ];
-        },
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Card(
-                elevation: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Biography",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+        body: FutureBuilder<ActorDetails>(
+      future: actorDetailsResponse,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          ActorDetails actorDetails = snapshot.data;
+          print(actorDetails);
+          return NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                    expandedHeight: 350,
+                    pinned: true,
+                    floating: true,
+                    flexibleSpace: LayoutBuilder(builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      top = constraints.biggest.height;
+                      return FlexibleSpaceBar(
+                        centerTitle: true,
+                        collapseMode: CollapseMode.parallax,
+                        title: Text(top <= 100 ? actorDetails.name : ""),
+                        background: Image.network(
+                          "$actorDetailsImagePrefix/${actorDetails.profilePath}",
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    }))
+              ];
+            },
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Card(
+                    elevation: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Biography",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Text(
+                            actorDetails.biography,
+                            textAlign: TextAlign.justify,
+                          )
+                        ],
                       ),
-                      Text(
-                        biography,
-                        textAlign: TextAlign.justify,
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                  Card(
+                    elevation: 3,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Info",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        new FactItem(
+                            Icons.today, actorDetails.birthday.toString()),
+                        new FactItem(Icons.home, actorDetails.placeOfBirth),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    elevation: 3,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Known For",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        Container(
+                          height: 160,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 10,
+                              itemBuilder: (context, int) {
+                                return MovieGridItem();
+                              }),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              Card(
-                elevation: 3,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Info",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                    ),
-                    new FactItem(Icons.theaters, "Released"),
-                    new FactItem(Icons.today, "2019-07-12"),
-                    new FactItem(Icons.language, "English"),
-                    new FactItem(Icons.movie, "1h 58m"),
-                    new FactItem(Icons.monetization_on, "260 Million"),
-                    new FactItem(Icons.trending_up, "270 Million"),
-                  ],
-                ),
-              ),
-              Card(
-                elevation: 3,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Known For",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                    ),
-                    Container(
-                      height: 160,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 10,
-                          itemBuilder: (context, int) {
-                            return MovieGridItem();
-                          }),
-                    ),
-                  ],
+            ),
+          );
+        } else {
+          return Center(
+              child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircularProgressIndicator(),
+              Padding(
+                padding: EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Loading...",
+                  style: TextStyle(fontSize: 20.0),
                 ),
               )
             ],
-          ),
-        ),
-      ),
-    );
+          ));
+        }
+      },
+    ));
   }
 }
