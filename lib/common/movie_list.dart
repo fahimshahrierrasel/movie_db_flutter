@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:movie_db_flutter/common/movie_item_card.dart';
+import 'package:movie_db_flutter/common/movie_list_item.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
 import 'package:movie_db_flutter/models/movie_list_response.dart';
 
@@ -33,7 +33,7 @@ class MovieList extends StatelessWidget {
             return ListView.builder(
               itemCount: movies.length,
               itemBuilder: (context, position) {
-                return MovieItemCard(movie: movies[position]);
+                return MovieListItem(movie: movies[position]);
               },
             );
           } else {

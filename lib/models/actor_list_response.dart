@@ -16,8 +16,6 @@ class ActorListResponse {
   factory ActorListResponse.fromRawJson(String str) =>
       ActorListResponse.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
-
   factory ActorListResponse.fromJson(Map<String, dynamic> json) =>
       new ActorListResponse(
         page: json["page"],
@@ -27,12 +25,6 @@ class ActorListResponse {
         totalPages: json["total_pages"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "page": page,
-        "results": new List<Actor>.from(actors.map((x) => x.toJson())),
-        "total_results": totalResults,
-        "total_pages": totalPages,
-      };
 }
 
 class Actor {
@@ -48,17 +40,9 @@ class Actor {
 
   factory Actor.fromRawJson(String str) => Actor.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
-
   factory Actor.fromJson(Map<String, dynamic> json) => new Actor(
         profilePath: json["profile_path"],
         id: json["id"],
         name: json["name"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "profile_path": profilePath,
-        "id": id,
-        "name": name,
-      };
 }

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db_flutter/common/fact_item.dart';
-import 'package:movie_db_flutter/common/movie_item.dart';
+import 'package:movie_db_flutter/common/movie_grid_item.dart';
 
-class ActorDetails extends StatefulWidget {
-  ActorDetails({Key key, this.title}) : super(key: key);
+class ActorDetailsPage extends StatefulWidget {
+  ActorDetailsPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _ActorDetailsState createState() => _ActorDetailsState(title: title);
+  _ActorDetailsPageState createState() => _ActorDetailsPageState(title: title);
 }
 
-class _ActorDetailsState extends State<ActorDetails> {
+class _ActorDetailsPageState extends State<ActorDetailsPage> {
   var top = 0.0;
   final String title;
 
-  _ActorDetailsState({@required this.title});
+  _ActorDetailsPageState({@required this.title});
 
   @override
   Widget build(BuildContext context) {

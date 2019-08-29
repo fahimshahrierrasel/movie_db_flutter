@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db_flutter/models/movie_list_response.dart';
 
-import 'package:movie_db_flutter/screens/movie_details.dart';
+import 'package:movie_db_flutter/screens/movie_details_page.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
 
-class MovieItemCard extends StatelessWidget {
+class MovieListItem extends StatelessWidget {
   final Movie movie;
 
-  const MovieItemCard({Key key, this.movie}) : super(key: key);
+  const MovieListItem({Key key, this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MovieItemCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MovieDetails(
+                  builder: (context) => MovieDetailsPage(
                         movieId: movie.id,
                       )));
         },

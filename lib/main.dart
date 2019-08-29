@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_db_flutter/screens/movies.dart';
+import 'package:movie_db_flutter/screens/movies_list_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Movies(
+      home: MoviesListPage(
         title: "Popular Movies",
         keyword: "popular",
       ),

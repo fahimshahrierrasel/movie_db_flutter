@@ -1,6 +1,6 @@
-import 'genres.dart';
+import 'genre.dart';
 
-class Movie {
+class MovieDetails {
   bool adult;
   String backdropPath;
   Object belongsToCollection;
@@ -24,7 +24,7 @@ class Movie {
   double voteAverage;
   int voteCount;
 
-  Movie.fromJsonMap(Map<String, dynamic> map)
+  MovieDetails.fromJsonMap(Map<String, dynamic> map)
       : adult = map["adult"],
         backdropPath = map["backdrop_path"],
         belongsToCollection = map["belongs_to_collection"],
@@ -48,32 +48,4 @@ class Movie {
         video = map["video"],
         voteAverage = map["vote_average"].toDouble(),
         voteCount = map["vote_count"];
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['adult'] = adult;
-    data['backdrop_path'] = backdropPath;
-    data['belongs_to_collection'] = belongsToCollection;
-    data['budget'] = budget;
-    data['genres'] =
-        genres != null ? this.genres.map((v) => v.toJson()).toList() : null;
-    data['homepage'] = homepage;
-    data['id'] = id;
-    data['imdb_id'] = imdbId;
-    data['original_language'] = originalLanguage;
-    data['original_title'] = originalTitle;
-    data['overview'] = overview;
-    data['popularity'] = popularity;
-    data['poster_path'] = posterPath;
-    data['release_date'] = releaseDate;
-    data['revenue'] = revenue;
-    data['runtime'] = runtime;
-    data['status'] = status;
-    data['tagline'] = tagLine;
-    data['title'] = title;
-    data['video'] = video;
-    data['vote_average'] = voteAverage;
-    data['vote_count'] = voteCount;
-    return data;
-  }
 }

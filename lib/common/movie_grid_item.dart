@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_db_flutter/screens/movie_details.dart';
+import 'package:movie_db_flutter/screens/movie_details_page.dart';
 
 class MovieGridItem extends StatelessWidget {
   const MovieGridItem({
@@ -13,7 +13,7 @@ class MovieGridItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MovieDetails(
+                builder: (context) => MovieDetailsPage(
                       movieId: 1,
                     )));
       },

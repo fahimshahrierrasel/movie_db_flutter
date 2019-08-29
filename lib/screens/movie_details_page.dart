@@ -2,41 +2,41 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:movie_db_flutter/common/actor_item.dart';
+import 'package:movie_db_flutter/common/actor_grid_item.dart';
 import 'package:movie_db_flutter/common/fact_item.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
-import 'package:movie_db_flutter/models/movie.dart';
+import 'package:movie_db_flutter/models/movie_details.dart';
 
-Future<Movie> getMovieDetails(String movieId, String apiKey) async {
+Future<MovieDetails> getMovieDetails(String movieId, String apiKey) async {
   final response = await http.get('$baseUrl/movie/$movieId?api_key=$apiKey');
 
   if (response.statusCode == 200) {
-    return Movie.fromJsonMap(json.decode(response.body));
+    return MovieDetails.fromJsonMap(json.decode(response.body));
   } else {
     throw Exception('Failed to load post');
   }
 }
 
-class MovieDetails extends StatefulWidget {
+class MovieDetailsPage extends StatefulWidget {
   final int movieId;
 
-  MovieDetails({Key key, @required this.movieId}) : super(key: key);
+  MovieDetailsPage({Key key, @required this.movieId}) : super(key: key);
 
   @override
-  _MovieDetailsState createState() => _MovieDetailsState(
+  _MovieDetailsPageState createState() => _MovieDetailsPageState(
       movieDetailsResponse: getMovieDetails(movieId.toString(), apiKey));
 }
 
-class _MovieDetailsState extends State<MovieDetails> {
+class _MovieDetailsPageState extends State<MovieDetailsPage> {
   var top = 0.0;
-  final Future<Movie> movieDetailsResponse;
+  final Future<MovieDetails> movieDetailsResponse;
 
-  _MovieDetailsState({@required this.movieDetailsResponse});
+  _MovieDetailsPageState({@required this.movieDetailsResponse});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<Movie>(
+        body: FutureBuilder<MovieDetails>(
       future: movieDetailsResponse,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -144,7 +144,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                               scrollDirection: Axis.horizontal,
                               itemCount: 10,
                               itemBuilder: (context, int) {
-                                return ActorListItem();
+                                return ActorGridItem();
                               }),
                         ),
                       ],

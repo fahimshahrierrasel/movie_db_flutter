@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
 
-import 'package:movie_db_flutter/screens/actor_details.dart';
+import 'package:movie_db_flutter/screens/actor_details_page.dart';
 
-class ActorListItem extends StatelessWidget {
+class ActorGridItem extends StatelessWidget {
   final String actorName;
   final String actorImage;
 
-  const ActorListItem({
+  const ActorGridItem({
     Key key,
     this.actorName,
     this.actorImage,
@@ -20,7 +20,7 @@ class ActorListItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ActorDetails(
+                builder: (context) => ActorDetailsPage(
                       title: actorName,
                     )));
       },

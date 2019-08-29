@@ -3,16 +3,16 @@ import 'package:movie_db_flutter/common/app_drawer.dart';
 import 'package:movie_db_flutter/common/movie_list.dart';
 
 
-class DiscoverMovies extends StatefulWidget {
-  DiscoverMovies({Key key, this.title}) : super(key: key);
+class DiscoverMoviesPage extends StatefulWidget {
+  DiscoverMoviesPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _DiscoverMoviesState createState() => _DiscoverMoviesState(title: title);
+  _DiscoverMoviesPageState createState() => _DiscoverMoviesPageState(title: title);
 }
 
-class _DiscoverMoviesState extends State<DiscoverMovies> {
+class _DiscoverMoviesPageState extends State<DiscoverMoviesPage> {
   final String title;
 
   RangeValues ratingRange = RangeValues(5.0, 10.0);
@@ -20,7 +20,7 @@ class _DiscoverMoviesState extends State<DiscoverMovies> {
   List<String> years = List<String>();
   String selectedYear = "";
 
-  _DiscoverMoviesState({@required this.title});
+  _DiscoverMoviesPageState({@required this.title});
 
   @override
   void initState() {

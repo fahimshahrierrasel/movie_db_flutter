@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:movie_db_flutter/common/actor_item.dart';
+import 'package:movie_db_flutter/common/actor_grid_item.dart';
 import 'package:movie_db_flutter/common/app_drawer.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
 import 'package:movie_db_flutter/models/actor_list_response.dart';
@@ -16,10 +16,10 @@ Future<ActorListResponse> getActorList({int page = 1}) async {
   }
 }
 
-class Actors extends StatelessWidget {
+class ActorsGridPage extends StatelessWidget {
   final String title;
 
-  const Actors({Key key, @required this.title}) : super(key: key);
+  const ActorsGridPage({Key key, @required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class Actors extends StatelessWidget {
               return GridView.count(
                 crossAxisCount: 2,
                 children: snapshot.data.actors.map((actor) {
-                  return ActorListItem(actorName: actor.name, actorImage: actor.profilePath,);
+                  return ActorGridItem(actorName: actor.name, actorImage: actor.profilePath,);
                 }).toList(),
               );
             } else {

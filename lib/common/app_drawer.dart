@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_db_flutter/screens/actors.dart';
-import 'package:movie_db_flutter/screens/discover_movies.dart';
-import 'package:movie_db_flutter/screens/movies.dart';
+import 'package:movie_db_flutter/screens/actors_grid_page.dart';
+import 'package:movie_db_flutter/screens/discover_movies_page.dart';
+import 'package:movie_db_flutter/screens/movies_list_page.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
@@ -31,7 +31,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Movies(
+                      builder: (context) => MoviesListPage(
                             title: "Popular Movies",
                             keyword: "popular",
                           )));
@@ -43,7 +43,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Movies(
+                      builder: (context) => MoviesListPage(
                             title: "Now Playing",
                             keyword: "now_playing",
                           )));
@@ -55,7 +55,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DiscoverMovies(
+                      builder: (context) => DiscoverMoviesPage(
                             title: "Discover Movies",
                           )));
             },
@@ -66,7 +66,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Movies(
+                      builder: (context) => MoviesListPage(
                             title: "Top Rated Movies",
                             keyword: "top_rated",
                           )));
@@ -78,7 +78,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Movies(
+                      builder: (context) => MoviesListPage(
                             title: "Upcoming Movies",
                             keyword: "upcoming",
                           )));
@@ -90,7 +90,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Actors(
+                      builder: (context) => ActorsGridPage(
                             title: "Actors",
                           )));
             },
