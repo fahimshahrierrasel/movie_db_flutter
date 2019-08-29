@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:movie_db_flutter/common/app_drawer.dart';
 import 'package:movie_db_flutter/common/movie_list.dart';
 
-
 class DiscoverMoviesPage extends StatefulWidget {
   DiscoverMoviesPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _DiscoverMoviesPageState createState() => _DiscoverMoviesPageState(title: title);
+  _DiscoverMoviesPageState createState() =>
+      _DiscoverMoviesPageState(title: title);
 }
 
 class _DiscoverMoviesPageState extends State<DiscoverMoviesPage> {
@@ -131,7 +131,10 @@ class _DiscoverMoviesPageState extends State<DiscoverMoviesPage> {
                 ),
               ),
             ),
-            Expanded(child: MovieList())
+            Expanded(
+                child: MovieList(
+              movieResponse: getMovies("popular"),
+            ))
           ],
         ),
       ),

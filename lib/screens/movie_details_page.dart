@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:movie_db_flutter/common/actor_grid_item.dart';
 import 'package:movie_db_flutter/common/fact_item.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
+import 'package:movie_db_flutter/models/cast_response.dart';
 import 'package:movie_db_flutter/models/movie_details.dart';
 
 Future<MovieDetails> getMovieDetails(String movieId, String apiKey) async {
@@ -14,6 +15,16 @@ Future<MovieDetails> getMovieDetails(String movieId, String apiKey) async {
     return MovieDetails.fromJsonMap(json.decode(response.body));
   } else {
     throw Exception('Failed to load post');
+  }
+}
+
+Future<CastResponse> getMovieCasts(int movieId) async {
+  final response =
+      await http.get("$baseUrl/movie/$movieId/credits?api_key=$apiKey");
+  if (response.statusCode == 200) {
+    return CastResponse.fromRawJson(response.body);
+  } else {
+    throw Exception("Failed to get movie credits");
   }
 }
 
@@ -117,10 +128,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                             movie.runtime != null
                                 ? "${(movie.runtime / 60).round()} hrs ${(movie.runtime % 60).toString()} mins"
                                 : ""),
-                        new FactItem(
-                            Icons.monetization_on, "${movie.budget/1000000} Million"),
-                        new FactItem(
-                            Icons.trending_up, "${movie.revenue/1000000} Million"),
+                        new FactItem(Icons.monetization_on,
+                            "${movie.budget / 1000000} Million"),
+                        new FactItem(Icons.trending_up,
+                            "${movie.revenue / 1000000} Million"),
                       ],
                     ),
                   ),
@@ -140,12 +151,29 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         ),
                         Container(
                           height: 160,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 10,
-                              itemBuilder: (context, int) {
-                                return ActorGridItem();
-                              }),
+                          child: FutureBuilder<CastResponse>(
+                            future: getMovieCasts(movie.id),
+                            builder: (context, _snapshot) {
+                              if (_snapshot.hasData) {
+                                var actors = _snapshot.data.actors.sublist(
+                                    0,
+                                    _snapshot.data.actors.length > 10
+                                        ? 10
+                                        : _snapshot.data.actors.length);
+                                return ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: actors.length,
+                                    itemBuilder: (context, index) {
+                                      return ActorGridItem(
+                                        actor: actors[index],
+                                      );
+                                    });
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),

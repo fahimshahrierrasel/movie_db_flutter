@@ -7,7 +7,7 @@ import 'package:movie_db_flutter/common/movie_list_item.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
 import 'package:movie_db_flutter/models/movie_list_response.dart';
 
-Future<MovieListResponse> getMovies(String keyword, String apiKey) async {
+Future<MovieListResponse> getMovies(String keyword) async {
   final response =
       await http.get('$baseUrl/movie/$keyword?api_key=$apiKey&page=1');
 

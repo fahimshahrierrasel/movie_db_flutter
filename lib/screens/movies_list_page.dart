@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db_flutter/common/app_drawer.dart';
 import 'package:movie_db_flutter/common/movie_list.dart';
-import 'package:movie_db_flutter/helpers/constants.dart';
 
 class MoviesListPage extends StatelessWidget {
   final String title;
@@ -18,7 +17,7 @@ class MoviesListPage extends StatelessWidget {
       ),
       drawer: AppDrawer(),
       body: MovieList(
-        movieResponse: getMovies(keyword, apiKey),
+        movieResponse: getMovies(keyword),
       ),
     );
   }
