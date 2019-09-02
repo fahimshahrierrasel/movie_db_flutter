@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:movie_db_flutter/common/fact_item.dart';
 import 'package:movie_db_flutter/common/movie_grid_item.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
+import 'package:movie_db_flutter/models/actor_cast_response.dart';
 import 'package:movie_db_flutter/models/actor_details.dart';
 
 Future<ActorDetails> getActorDetails(int actorId) async {
@@ -12,6 +13,16 @@ Future<ActorDetails> getActorDetails(int actorId) async {
     return ActorDetails.fromRawJson(response.body);
   } else {
     throw Exception("Failed to get actor details");
+  }
+}
+
+Future<ActorCastResponse> getActorMovies(int personId) async {
+  final response =
+  await http.get("$baseUrl/person/$personId/movie_credits?api_key=$apiKey");
+  if (response.statusCode == 200) {
+    return ActorCastResponse.fromRawJson(response.body);
+  } else {
+    throw Exception("Failed to get movie credits");
   }
 }
 
@@ -39,7 +50,6 @@ class _ActorDetailsPageState extends State<ActorDetailsPage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           ActorDetails actorDetails = snapshot.data;
-          print(actorDetails);
           return NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -126,12 +136,29 @@ class _ActorDetailsPageState extends State<ActorDetailsPage> {
                         ),
                         Container(
                           height: 160,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 10,
-                              itemBuilder: (context, int) {
-                                return MovieGridItem();
-                              }),
+                          child: FutureBuilder<ActorCastResponse>(
+                            future: getActorMovies(actorDetails.id),
+                            builder: (context, _snapshot) {
+                              if (_snapshot.hasData) {
+                                var movies = _snapshot.data.movies.sublist(
+                                    0,
+                                    _snapshot.data.movies.length > 10
+                                        ? 10
+                                        : _snapshot.data.movies.length);
+                                return ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: movies.length,
+                                    itemBuilder: (context, index) {
+                                      return MovieGridItem(
+                                        movie: movies[index],
+                                      );
+                                    });
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                            },
+                          )
                         ),
                       ],
                     ),

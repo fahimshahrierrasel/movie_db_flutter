@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:movie_db_flutter/helpers/constants.dart';
+import 'package:movie_db_flutter/models/movie_list_response.dart';
 import 'package:movie_db_flutter/screens/movie_details_page.dart';
 
 class MovieGridItem extends StatelessWidget {
+  final Movie movie;
+
   const MovieGridItem({
     Key key,
+    this.movie,
   }) : super(key: key);
 
   @override
@@ -14,7 +19,7 @@ class MovieGridItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => MovieDetailsPage(
-                      movieId: 1,
+                      movieId: movie.id,
                     )));
       },
       child: Container(
@@ -24,11 +29,11 @@ class MovieGridItem extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/lion_king_poster.jpg"),
-                      fit: BoxFit.cover)),
+              width: double.infinity,
+              child: FadeInImage.assetNetwork(
+                  placeholder: "assets/images/placeholder.png",
+                  image: "$posterPrefix/${movie.posterPath}",
+              fit: BoxFit.cover,),
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -36,7 +41,7 @@ class MovieGridItem extends StatelessWidget {
                 width: double.infinity,
                 color: Color.fromRGBO(255, 255, 255, 0.7),
                 child: Text(
-                  "The Lion King",
+                  movie.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),

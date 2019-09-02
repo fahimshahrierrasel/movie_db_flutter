@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:movie_db_flutter/common/actor_grid_item.dart';
 import 'package:movie_db_flutter/common/fact_item.dart';
 import 'package:movie_db_flutter/helpers/constants.dart';
-import 'package:movie_db_flutter/models/cast_response.dart';
+import 'package:movie_db_flutter/models/movie_cast_response.dart';
 import 'package:movie_db_flutter/models/movie_details.dart';
 
 Future<MovieDetails> getMovieDetails(String movieId, String apiKey) async {
@@ -18,11 +18,11 @@ Future<MovieDetails> getMovieDetails(String movieId, String apiKey) async {
   }
 }
 
-Future<CastResponse> getMovieCasts(int movieId) async {
+Future<MovieCastResponse> getMovieCasts(int movieId) async {
   final response =
       await http.get("$baseUrl/movie/$movieId/credits?api_key=$apiKey");
   if (response.statusCode == 200) {
-    return CastResponse.fromRawJson(response.body);
+    return MovieCastResponse.fromRawJson(response.body);
   } else {
     throw Exception("Failed to get movie credits");
   }
@@ -151,7 +151,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         ),
                         Container(
                           height: 160,
-                          child: FutureBuilder<CastResponse>(
+                          child: FutureBuilder<MovieCastResponse>(
                             future: getMovieCasts(movie.id),
                             builder: (context, _snapshot) {
                               if (_snapshot.hasData) {

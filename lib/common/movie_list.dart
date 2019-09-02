@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,9 +8,8 @@ import 'package:movie_db_flutter/models/movie_list_response.dart';
 Future<MovieListResponse> getMovies(String keyword) async {
   final response =
       await http.get('$baseUrl/movie/$keyword?api_key=$apiKey&page=1');
-
   if (response.statusCode == 200) {
-    return MovieListResponse.fromJsonMap(json.decode(response.body));
+    return MovieListResponse.fromRawJson(response.body);
   } else {
     throw Exception('Failed to load post');
   }
@@ -29,7 +26,7 @@ class MovieList extends StatelessWidget {
         future: movieResponse,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var movies = snapshot.data.results;
+            var movies = snapshot.data.movies;
             return ListView.builder(
               itemCount: movies.length,
               itemBuilder: (context, position) {

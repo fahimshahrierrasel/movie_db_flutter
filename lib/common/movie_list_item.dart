@@ -70,7 +70,7 @@ class MovieListItem extends StatelessWidget {
                                     children: <Widget>[
                                       new Text("Release Date"),
                                       new Text(
-                                        movie.releaseDate,
+                                        movie.releaseDate.toString(),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       )

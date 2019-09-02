@@ -1,32 +1,56 @@
-class MovieListResponse {
-  final int page;
-  final List<Movie> results;
-  final int totalResults;
-  final int totalPages;
+import 'dart:convert';
 
-  MovieListResponse.fromJsonMap(Map<String, dynamic> map)
-      : page = map["page"],
-        results =
-            List<Movie>.from(map["results"].map((it) => Movie.fromJsonMap(it))),
-        totalResults = map["total_results"],
-        totalPages = map["total_pages"];
+class MovieListResponse {
+  int page;
+  List<Movie> movies;
+  int totalResults;
+  int totalPages;
+
+  MovieListResponse({
+    this.page,
+    this.movies,
+    this.totalResults,
+    this.totalPages,
+  });
+
+  factory MovieListResponse.fromRawJson(String str) => MovieListResponse.fromJson(json.decode(str));
+
+  factory MovieListResponse.fromJson(Map<String, dynamic> json) => new MovieListResponse(
+    page: json["page"],
+    movies: new List<Movie>.from(json["results"].map((x) => Movie.fromJson(x))),
+    totalResults: json["total_results"],
+    totalPages: json["total_pages"],
+  );
 }
 
 class Movie {
-  final String posterPath;
-  final String releaseDate;
-  final List<int> genreIds;
-  final int id;
-  final String originalTitle;
-  final String title;
-  final double voteAverage;
+  String posterPath;
+  DateTime releaseDate;
+  List<int> genreIds;
+  int id;
+  String originalTitle;
+  String title;
+  double voteAverage;
 
-  Movie.fromJsonMap(Map<String, dynamic> map)
-      : posterPath = map["poster_path"],
-        releaseDate = map["release_date"],
-        genreIds = List<int>.from(map["genre_ids"]),
-        id = map["id"],
-        originalTitle = map["original_title"],
-        title = map["title"],
-        voteAverage = map["vote_average"].toDouble();
+  Movie({
+    this.posterPath,
+    this.releaseDate,
+    this.genreIds,
+    this.id,
+    this.originalTitle,
+    this.title,
+    this.voteAverage,
+  });
+
+  factory Movie.fromRawJson(String str) => Movie.fromJson(json.decode(str));
+
+  factory Movie.fromJson(Map<String, dynamic> json) => new Movie(
+    posterPath: json["poster_path"],
+    releaseDate: DateTime.parse(json["release_date"]),
+    genreIds: new List<int>.from(json["genre_ids"].map((x) => x)),
+    id: json["id"],
+    originalTitle: json["original_title"],
+    title: json["title"],
+    voteAverage: json["vote_average"].toDouble(),
+  );
 }
